@@ -10,20 +10,30 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "constants.h"
 #import "Pub.h"
+#import "ConfigurationManager.h"
 
 
 @interface PubRepository(){}
 @property(nonatomic, strong)AFHTTPRequestOperationManager *httpRequestManager;
+@property(nonatomic, strong)ConfigurationManager *settings;
 @end
 
 @implementation PubRepository
 @synthesize httpRequestManager = _httpRequestManager;
+@synthesize settings = _settings;
 
 -(AFHTTPRequestOperationManager *)httpRequestManager{
     if(_httpRequestManager == nil){
         _httpRequestManager = [AFHTTPRequestOperationManager manager];
     }
     return _httpRequestManager;
+}
+
+-(ConfigurationManager *)settings{
+    if(_settings == nil){
+        _settings = [[ConfigurationManager alloc]init];
+    }
+    return _settings;
 }
 
 -(void) getPubsLongitude:(double)longitude
@@ -34,8 +44,8 @@
                                         @"v" : @"20140112",
                                         @"query":@"bar",
                                         @"ll":[NSString stringWithFormat:@"%lf,%lf",latitude, longitude],
-                                        @"client_id":@"",
-                                        @"client_secret": @""
+                                        @"client_id":[self.settings appId],
+                                        @"client_secret": [self.settings appSecret],
                                         };
     [self.httpRequestManager GET:kExplorerSearchBaseUrl parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *response = (NSDictionary *)responseObject[@"response"];
