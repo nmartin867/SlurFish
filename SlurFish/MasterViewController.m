@@ -7,15 +7,75 @@
 //
 
 #import "MasterViewController.h"
-
 #import "DetailViewController.h"
+#import "LocationProvider.h"
+#import <CoreLocation/CLLocation.h>
+#import "PubService.h"
+#import "Pub.h"
+#import "MBProgressHUD.h"
 
 @interface MasterViewController () {
-    NSMutableArray *_objects;
+    NSMutableArray *_pubs;
 }
+@property(nonatomic, strong)LocationProvider *locationProvider;
+@property(nonatomic, strong)PubService *pubService;
+@property(nonatomic, strong)UserLocationSuccess userLocationSuccessBlock;
+@property(nonatomic, strong)UserLocationError userLocationErrorBlock;
+@property(nonatomic, strong)PubSearchRequestSuccess pubSearchRequestSuccessBlock;
+@property(nonatomic, strong)PubSearchRequestError pubSearchRequestErrorBlock;
+
 @end
 
 @implementation MasterViewController
+
+@synthesize locationProvider = _locationProvider;
+@synthesize pubService = _pubService;
+@synthesize userLocationSuccessBlock = _userLocationSuccessBlock;
+@synthesize userLocationErrorBlock = _userLocationErrorBlock;
+@synthesize pubSearchRequestSuccessBlock = _pubSearchRequestSuccessBlock;
+@synthesize pubSearchRequestErrorBlock = _pubSearchRequestErrorBlock;
+
+-(UserLocationSuccess)userLocationSuccessBlock{
+    return ^(CLLocation *location){
+        [self getPubsNearCoordinates:location];
+    };
+}
+
+-(UserLocationError)userLocationErrorBlock{
+    return ^(NSError *error){
+        
+    };
+}
+
+-(PubSearchRequestSuccess)pubSearchRequestSuccessBlock{
+    return ^(NSMutableArray *pubSearchResults){
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        _pubs = [NSMutableArray arrayWithArray:pubSearchResults];
+        [self.tableView reloadData];
+    };
+}
+
+-(PubSearchRequestError)pubSearchRequestErrorBlock{
+    return ^(NSError *error){
+        
+    };
+}
+
+-(PubService *)pubService{
+    if(_pubService == nil){
+        _pubService = [[PubService alloc]init];
+    }
+    return _pubService;
+}
+
+-(LocationProvider *)locationProvider{
+    if(_locationProvider == nil){
+        _locationProvider = [[LocationProvider alloc]init];
+    }
+    return _locationProvider;
+}
+
+
 
 - (void)awakeFromNib
 {
@@ -28,7 +88,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
@@ -38,16 +98,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender
+- (void)getUserLocation
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.locationProvider getUserLocationWithSuccess:self.userLocationSuccessBlock error:self.userLocationErrorBlock];
 }
 
+-(void)getPubsNearCoordinates:(CLLocation *)location
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.pubService getPubsWithCoordinate:location.coordinate
+                                 onSuccess:self.pubSearchRequestSuccessBlock
+                                   onError:self.pubSearchRequestErrorBlock];
+}
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,15 +119,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return _pubs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    Pub *pub = _pubs[indexPath.row];
+    cell.textLabel.text = [pub name];
+    NSNumber *meters = (NSNumber *)pub.location[@"distance"];
+    NSNumber *conversionFactor = @(0.00062137);
+    NSNumber *miles = @([conversionFactor floatValue] * [meters integerValue]);
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ miles",miles];
     return cell;
 }
 
@@ -78,7 +144,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
+        [_pubs removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -105,8 +171,8 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        Pub *pub = _pubs[indexPath.row];
+        [[segue destinationViewController] setPub:pub];
     }
 }
 

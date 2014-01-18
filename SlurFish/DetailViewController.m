@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import <CoreLocation/CLLocation.h>
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -16,10 +17,10 @@
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
+- (void)setPubItem:(Pub *)pub
 {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
+    if (_pub != pub) {
+        _pub= pub;
         
         // Update the view.
         [self configureView];
@@ -30,9 +31,18 @@
 {
     // Update the user interface for the detail item.
 
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+    if (self.pub) {
+        self.detailDescriptionLabel.text = [self.pub name];
     }
+    double lat = [self.pub.location[@"lat"] doubleValue];
+    double lng = [self.pub.location[@"lng"] doubleValue];
+    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(lat, lng) animated:YES];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake(lat, lng), 350, 350);
+    [self.mapView setRegion:region animated:YES];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:1];
+    [UIView commitAnimations];
 }
 
 - (void)viewDidLoad
