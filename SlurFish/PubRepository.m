@@ -8,7 +8,6 @@
 
 #import "PubRepository.h"
 #import "AFHTTPRequestOperationManager.h"
-#import "constants.h"
 #import "Pub.h"
 #import "ConfigurationManager.h"
 
@@ -41,13 +40,13 @@
                onSuccess:(PubSearchRequestSuccess)successBlock
                  onError:(PubSearchRequestError)errorBlock{
     NSDictionary *longLatQueryParam = @{
-                                        @"v" : @"20140112",
+                                        @"v" : [self.settings apiVersion],
                                         @"query":@"bar",
                                         @"ll":[NSString stringWithFormat:@"%lf,%lf",latitude, longitude],
                                         @"client_id":[self.settings appId],
                                         @"client_secret": [self.settings appSecret],
                                         };
-    [self.httpRequestManager GET:kExplorerSearchBaseUrl parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.httpRequestManager GET:[self.settings apiBaseUrl] parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *response = (NSDictionary *)responseObject[@"response"];
         successBlock([self formatPubSearchResults:response]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

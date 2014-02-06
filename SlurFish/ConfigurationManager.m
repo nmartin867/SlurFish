@@ -23,10 +23,18 @@
 }
 
 -(NSString *)appId{
-    return [self.settings[@"FourSquare"] objectForKey:@"AppID"];
+    return self.settings[@"AppID"];
 }
 
 -(NSString *)appSecret{
-    return [self.settings[@"FourSquare"] objectForKey:@"AppSecret"];
+    return self.settings[@"AppSecret"];
+}
+
+-(NSString *)apiBaseUrl{
+    return self.settings[@"API_Base_URL"];
+}
+
+-(NSString *)apiVersion{
+    return self.settings[@"API_Version"];
 }
 @end

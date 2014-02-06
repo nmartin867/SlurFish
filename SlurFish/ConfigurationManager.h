@@ -11,4 +11,6 @@
 @interface ConfigurationManager : NSObject
 -(NSString *)appId;
 -(NSString *)appSecret;
+-(NSString *)apiBaseUrl;
+-(NSString *)apiVersion;
 @end

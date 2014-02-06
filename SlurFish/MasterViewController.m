@@ -85,9 +85,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
 }
@@ -131,7 +128,7 @@
     NSNumber *meters = (NSNumber *)pub.location[@"distance"];
     NSNumber *conversionFactor = @(0.00062137);
     NSNumber *miles = @([conversionFactor floatValue] * [meters integerValue]);
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ miles",miles];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ miles", miles];
     return cell;
 }
 
