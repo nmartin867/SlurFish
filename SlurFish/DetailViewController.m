@@ -20,8 +20,7 @@
 - (void)setPubItem:(Pub *)pub
 {
     if (_pub != pub) {
-        _pub= pub;
-        
+        _pub = pub;
         // Update the view.
         [self configureView];
     }
@@ -30,15 +29,14 @@
 - (void)configureView
 {
     // Update the user interface for the detail item.
-
-    if (self.pub) {
-        self.detailDescriptionLabel.text = [self.pub name];
+    if (_pub) {
+        self.detailDescriptionLabel.text = [_pub name];
     }
-    double lat = [self.pub.location[@"lat"] doubleValue];
-    double lng = [self.pub.location[@"lng"] doubleValue];
-    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(lat, lng) animated:YES];
+    double lat = [_pub.location[@"lat"] doubleValue];
+    double lng = [_pub.location[@"lng"] doubleValue];
+    [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(lat, lng) animated:YES];
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake(lat, lng), 350, 350);
-    [self.mapView setRegion:region animated:YES];
+    [_mapView setRegion:region animated:YES];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];

@@ -16,6 +16,7 @@
 
 @interface MasterViewController () {
     NSMutableArray *_pubs;
+    Pub *_selectedPub;
 }
 @property(nonatomic, strong)LocationProvider *locationProvider;
 @property(nonatomic, strong)PubService *pubService;
@@ -75,8 +76,6 @@
     return _locationProvider;
 }
 
-
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -87,6 +86,16 @@
     [super viewDidLoad];
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
+    
+    self.tableView.rowHeight = 100;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    UIImageView *imageView = [UIImageView new];
+    imageView.image = [UIImage imageNamed:@"tableBackground.png"];
+    self.tableView.backgroundView = imageView;
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(61/255.0) green:(61/255.0) blue:(61/255.0) alpha:1.0];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,6 +116,7 @@
                                  onSuccess:self.pubSearchRequestSuccessBlock
                                    onError:self.pubSearchRequestErrorBlock];
 }
+
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -121,56 +131,34 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    static NSString *MyIdentifier = @"PubCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
+    }
+    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = [UIColor whiteColor];
 
     Pub *pub = _pubs[indexPath.row];
     cell.textLabel.text = [pub name];
-    NSNumber *meters = (NSNumber *)pub.location[@"distance"];
-    NSNumber *conversionFactor = @(0.00062137);
-    NSNumber *miles = @([conversionFactor floatValue] * [meters integerValue]);
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ miles", miles];
+    float meters = [pub.location[@"distance"]floatValue];
+    float conversionFactor = 0.00062137;
+    float miles = conversionFactor * meters;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f miles", miles];
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _selectedPub = [_pubs objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"PubMap" sender:self];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_pubs removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Pub *pub = _pubs[indexPath.row];
-        [[segue destinationViewController] setPub:pub];
-    }
+    [[segue destinationViewController] setPub:_selectedPub];
 }
 
 @end
