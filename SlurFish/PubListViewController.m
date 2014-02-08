@@ -1,13 +1,13 @@
 //
-//  MasterViewController.m
+//  PubListViewController.m
 //  SlurFish
 //
 //  Created by Nick Martin on 1/12/14.
 //  Copyright (c) 2014 org.monkeyman. All rights reserved.
 //
 
-#import "MasterViewController.h"
-#import "DetailViewController.h"
+#import "PubListViewController.h"
+#import "PubMapViewController.h"
 #import "LocationProvider.h"
 #import <CoreLocation/CLLocation.h>
 #import "PubService.h"
@@ -15,8 +15,8 @@
 #import "SFPubLocation.h"
 #import "MBProgressHUD.h"
 
-@interface MasterViewController () {
-    NSMutableArray *_pubs;
+@interface PubListViewController () {
+    NSArray *_pubs;
     Pub *_selectedPub;
 }
 @property(nonatomic, strong)LocationProvider *locationProvider;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation MasterViewController
+@implementation PubListViewController
 
 @synthesize locationProvider = _locationProvider;
 @synthesize pubService = _pubService;
@@ -52,7 +52,17 @@
 -(PubSearchRequestSuccess)pubSearchRequestSuccessBlock{
     return ^(NSMutableArray *pubSearchResults){
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        _pubs = [NSMutableArray arrayWithArray:pubSearchResults];
+        _pubs = [[NSMutableArray arrayWithArray:pubSearchResults] sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
+            NSNumber *distanceA = [[(Pub *)a location] distance];
+            NSNumber *distanceB = [[(Pub *)b location] distance];
+            return [distanceA compare:distanceB];
+        }];
+        /*NSArray *sortedArray;
+         sortedArray = [drinkDetails sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+         NSDate *first = [(Person*)a birthDate];
+         NSDate *second = [(Person*)b birthDate];
+         return [first compare:second];
+         }];*/
         [self.tableView reloadData];
     };
 }
@@ -158,7 +168,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    DetailViewController *pubLocationView = (DetailViewController *)[segue destinationViewController];
+    PubMapViewController *pubLocationView = (PubMapViewController *)[segue destinationViewController];
     [pubLocationView setPub:_selectedPub];
 }
 

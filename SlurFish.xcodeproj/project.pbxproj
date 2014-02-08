@@ -14,8 +14,8 @@
 		01183EB818834394001B22B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EB718834394001B22B4 /* main.m */; };
 		01183EBC18834394001B22B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EBB18834394001B22B4 /* AppDelegate.m */; };
 		01183EBF18834394001B22B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01183EBD18834394001B22B4 /* Main.storyboard */; };
-		01183EC218834394001B22B4 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EC118834394001B22B4 /* MasterViewController.m */; };
-		01183EC518834394001B22B4 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EC418834394001B22B4 /* DetailViewController.m */; };
+		01183EC218834394001B22B4 /* PubListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EC118834394001B22B4 /* PubListViewController.m */; };
+		01183EC518834394001B22B4 /* PubMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183EC418834394001B22B4 /* PubMapViewController.m */; };
 		01183EC718834394001B22B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01183EC618834394001B22B4 /* Images.xcassets */; };
 		01183ECE18834394001B22B4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01183ECD18834394001B22B4 /* XCTest.framework */; };
 		01183ECF18834394001B22B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01183EAB18834394001B22B4 /* Foundation.framework */; };
@@ -73,10 +73,10 @@
 		01183EBA18834394001B22B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		01183EBB18834394001B22B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		01183EBE18834394001B22B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		01183EC018834394001B22B4 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		01183EC118834394001B22B4 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		01183EC318834394001B22B4 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		01183EC418834394001B22B4 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		01183EC018834394001B22B4 /* PubListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubListViewController.h; sourceTree = "<group>"; };
+		01183EC118834394001B22B4 /* PubListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubListViewController.m; sourceTree = "<group>"; };
+		01183EC318834394001B22B4 /* PubMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubMapViewController.h; sourceTree = "<group>"; };
+		01183EC418834394001B22B4 /* PubMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubMapViewController.m; sourceTree = "<group>"; };
 		01183EC618834394001B22B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		01183ECC18834394001B22B4 /* SlurFishTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlurFishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		01183ECD18834394001B22B4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -205,10 +205,10 @@
 				01183EBA18834394001B22B4 /* AppDelegate.h */,
 				01183EBB18834394001B22B4 /* AppDelegate.m */,
 				01183EBD18834394001B22B4 /* Main.storyboard */,
-				01183EC018834394001B22B4 /* MasterViewController.h */,
-				01183EC118834394001B22B4 /* MasterViewController.m */,
-				01183EC318834394001B22B4 /* DetailViewController.h */,
-				01183EC418834394001B22B4 /* DetailViewController.m */,
+				01183EC018834394001B22B4 /* PubListViewController.h */,
+				01183EC118834394001B22B4 /* PubListViewController.m */,
+				01183EC318834394001B22B4 /* PubMapViewController.h */,
+				01183EC418834394001B22B4 /* PubMapViewController.m */,
 				01183EC618834394001B22B4 /* Images.xcassets */,
 				01183EB218834394001B22B4 /* Supporting Files */,
 				011D71AA188B25F7009323CB /* SearchRadiusViewController.h */,
@@ -468,10 +468,10 @@
 				01183F3718837EE2001B22B4 /* MBProgressHUD.m in Sources */,
 				011D71AC188B25F7009323CB /* SearchRadiusViewController.m in Sources */,
 				01183F2D18836B72001B22B4 /* AFURLRequestSerialization.m in Sources */,
-				01183EC218834394001B22B4 /* MasterViewController.m in Sources */,
+				01183EC218834394001B22B4 /* PubListViewController.m in Sources */,
 				0162BBBE188A23B600479DF1 /* ConfigurationManager.m in Sources */,
 				01183EB818834394001B22B4 /* main.m in Sources */,
-				01183EC518834394001B22B4 /* DetailViewController.m in Sources */,
+				01183EC518834394001B22B4 /* PubMapViewController.m in Sources */,
 				01183F2818836B72001B22B4 /* AFHTTPRequestOperationManager.m in Sources */,
 				01673F9C18A5E3110031659F /* SFPubMapOverlay.m in Sources */,
 				01183F2B18836B72001B22B4 /* AFSecurityPolicy.m in Sources */,

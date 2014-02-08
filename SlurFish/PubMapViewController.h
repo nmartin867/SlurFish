@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Pub.h"
 
-@interface DetailViewController : UIViewController
+@interface PubMapViewController : UIViewController
 
 @property (strong, nonatomic) Pub *pub;
 

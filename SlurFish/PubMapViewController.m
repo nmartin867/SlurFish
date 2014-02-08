@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 org.monkeyman. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "PubMapViewController.h"
 #import <CoreLocation/CLLocation.h>
 #import "SFPubLocation.h"
 #import "SFPubAnnotation.h"
 
-@interface DetailViewController ()
+@interface PubMapViewController ()
 - (void)configureView;
 @end
 
-@implementation DetailViewController
+@implementation PubMapViewController
 
 #pragma mark - Managing the detail item
 

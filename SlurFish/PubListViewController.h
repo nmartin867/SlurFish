@@ -1,5 +1,5 @@
 //
-//  MasterViewController.h
+//  PubListViewController.h
 //  SlurFish
 //
 //  Created by Nick Martin on 1/12/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MasterViewController : UITableViewController <UITableViewDelegate>
+@interface PubListViewController : UITableViewController <UITableViewDelegate>
 
 @end
