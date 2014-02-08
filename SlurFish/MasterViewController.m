@@ -12,6 +12,7 @@
 #import <CoreLocation/CLLocation.h>
 #import "PubService.h"
 #import "Pub.h"
+#import "SFPubLocation.h"
 #import "MBProgressHUD.h"
 
 @interface MasterViewController () {
@@ -84,9 +85,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(getUserLocation)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
-    
     self.tableView.rowHeight = 100;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -95,7 +95,7 @@
     self.tableView.backgroundView = imageView;
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(61/255.0) green:(61/255.0) blue:(61/255.0) alpha:1.0];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,7 +143,7 @@
 
     Pub *pub = _pubs[indexPath.row];
     cell.textLabel.text = [pub name];
-    float meters = [pub.location[@"distance"]floatValue];
+    float meters = [pub.location.distance floatValue];
     float conversionFactor = 0.00062137;
     float miles = conversionFactor * meters;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f miles", miles];
@@ -158,7 +158,8 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [[segue destinationViewController] setPub:_selectedPub];
+    DetailViewController *pubLocationView = (DetailViewController *)[segue destinationViewController];
+    [pubLocationView setPub:_selectedPub];
 }
 
 @end

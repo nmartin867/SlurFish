@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class SFPubLocation;
 @interface Pub : NSObject
 @property(nonatomic, strong)NSString *name;
-@property(nonatomic, strong)NSDictionary *location;
+@property(nonatomic, strong)SFPubLocation *location;
 @property(nonatomic, strong)NSString *category;
-
 @end

@@ -8,6 +8,8 @@
 
 #import "DetailViewController.h"
 #import <CoreLocation/CLLocation.h>
+#import "SFPubLocation.h"
+#import "SFPubAnnotation.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -32,12 +34,14 @@
     if (_pub) {
         self.detailDescriptionLabel.text = [_pub name];
     }
-    double lat = [_pub.location[@"lat"] doubleValue];
-    double lng = [_pub.location[@"lng"] doubleValue];
+    double lat = _pub.location.lat;
+    double lng = _pub.location.lng;
+    CLLocationCoordinate2D pubCoordinate = CLLocationCoordinate2DMake(lat, lng);
+    SFPubAnnotation *pubAnnotation = [[SFPubAnnotation alloc] initWithCoordinate:pubCoordinate];
     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(lat, lng) animated:YES];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake(lat, lng), 350, 350);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(pubCoordinate, 350, 350);
     [_mapView setRegion:region animated:YES];
-    
+    [_mapView addAnnotation:pubAnnotation];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView commitAnimations];
@@ -46,7 +50,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 

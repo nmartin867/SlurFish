@@ -40,9 +40,12 @@
 		01183F3718837EE2001B22B4 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183F3618837EE2001B22B4 /* MBProgressHUD.m */; };
 		01183F3A18838F65001B22B4 /* Pub.m in Sources */ = {isa = PBXBuildFile; fileRef = 01183F3918838F65001B22B4 /* Pub.m */; };
 		01183F3C18839FAA001B22B4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01183F3B18839FAA001B22B4 /* MapKit.framework */; };
-		011D71A9188B22FF009323CB /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 011D71A8188B22FF009323CB /* Configuration.plist */; };
 		011D71AC188B25F7009323CB /* SearchRadiusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 011D71AB188B25F7009323CB /* SearchRadiusViewController.m */; };
 		0162BBBE188A23B600479DF1 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0162BBBD188A23B600479DF1 /* ConfigurationManager.m */; };
+		01673F9818A5DFFD0031659F /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01673F9718A5DFFD0031659F /* Configuration.plist */; };
+		01673F9C18A5E3110031659F /* SFPubMapOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673F9B18A5E3110031659F /* SFPubMapOverlay.m */; };
+		01673F9F18A5E9A80031659F /* SFPubLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673F9E18A5E9A80031659F /* SFPubLocation.m */; };
+		01673FA318A5F5930031659F /* SFPubAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673FA218A5F5930031659F /* SFPubAnnotation.m */; };
 		01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B94FD018A1E2BB00F7FE94 /* tableBackground.png */; };
 		01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01BC2FFC18A341980055D980 /* SlurFishIcon.png */; };
 		01BC2FFF18A342280055D980 /* SlurFishSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 01BC2FFE18A342280055D980 /* SlurFishSplash.png */; };
@@ -113,11 +116,17 @@
 		01183F3818838F65001B22B4 /* Pub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pub.h; sourceTree = "<group>"; };
 		01183F3918838F65001B22B4 /* Pub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pub.m; sourceTree = "<group>"; };
 		01183F3B18839FAA001B22B4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		011D71A8188B22FF009323CB /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		011D71AA188B25F7009323CB /* SearchRadiusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchRadiusViewController.h; sourceTree = "<group>"; };
 		011D71AB188B25F7009323CB /* SearchRadiusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchRadiusViewController.m; sourceTree = "<group>"; };
 		0162BBBC188A23B600479DF1 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationManager.h; sourceTree = "<group>"; };
 		0162BBBD188A23B600479DF1 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationManager.m; sourceTree = "<group>"; };
+		01673F9718A5DFFD0031659F /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
+		01673F9A18A5E3110031659F /* SFPubMapOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPubMapOverlay.h; sourceTree = "<group>"; };
+		01673F9B18A5E3110031659F /* SFPubMapOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPubMapOverlay.m; sourceTree = "<group>"; };
+		01673F9D18A5E9A80031659F /* SFPubLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPubLocation.h; sourceTree = "<group>"; };
+		01673F9E18A5E9A80031659F /* SFPubLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPubLocation.m; sourceTree = "<group>"; };
+		01673FA118A5F5930031659F /* SFPubAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPubAnnotation.h; sourceTree = "<group>"; };
+		01673FA218A5F5930031659F /* SFPubAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPubAnnotation.m; sourceTree = "<group>"; };
 		01B94FD018A1E2BB00F7FE94 /* tableBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableBackground.png; sourceTree = "<group>"; };
 		01BC2FFC18A341980055D980 /* SlurFishIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishIcon.png; sourceTree = "<group>"; };
 		01BC2FFE18A342280055D980 /* SlurFishSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishSplash.png; sourceTree = "<group>"; };
@@ -184,6 +193,8 @@
 		01183EB118834394001B22B4 /* SlurFish */ = {
 			isa = PBXGroup;
 			children = (
+				01673FA018A5F56D0031659F /* Annotations */,
+				01673F9918A5E2970031659F /* Overlays */,
 				011D71AD188B27F7009323CB /* MapAnnotations */,
 				0162BBBB188A238300479DF1 /* Configuration */,
 				01183F3418837ECC001B22B4 /* MBProgressHUD */,
@@ -209,6 +220,7 @@
 		01183EB218834394001B22B4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01673F9718A5DFFD0031659F /* Configuration.plist */,
 				01BC2FFE18A342280055D980 /* SlurFishSplash.png */,
 				01BC2FFC18A341980055D980 /* SlurFishIcon.png */,
 				01B94FD018A1E2BB00F7FE94 /* tableBackground.png */,
@@ -218,7 +230,6 @@
 				01183EB418834394001B22B4 /* InfoPlist.strings */,
 				01183EB718834394001B22B4 /* main.m */,
 				01183EB918834394001B22B4 /* SlurFish-Prefix.pch */,
-				011D71A8188B22FF009323CB /* Configuration.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -266,6 +277,8 @@
 				01183F11188369AC001B22B4 /* PubRepository.m */,
 				01183F3818838F65001B22B4 /* Pub.h */,
 				01183F3918838F65001B22B4 /* Pub.m */,
+				01673F9D18A5E9A80031659F /* SFPubLocation.h */,
+				01673F9E18A5E9A80031659F /* SFPubLocation.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -319,6 +332,24 @@
 				0162BBBD188A23B600479DF1 /* ConfigurationManager.m */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		01673F9918A5E2970031659F /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				01673F9A18A5E3110031659F /* SFPubMapOverlay.h */,
+				01673F9B18A5E3110031659F /* SFPubMapOverlay.m */,
+			);
+			name = Overlays;
+			sourceTree = "<group>";
+		};
+		01673FA018A5F56D0031659F /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				01673FA118A5F5930031659F /* SFPubAnnotation.h */,
+				01673FA218A5F5930031659F /* SFPubAnnotation.m */,
+			);
+			name = Annotations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -405,8 +436,8 @@
 				01183EB618834394001B22B4 /* InfoPlist.strings in Resources */,
 				01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */,
 				01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */,
-				011D71A9188B22FF009323CB /* Configuration.plist in Resources */,
 				01BC2FFF18A342280055D980 /* SlurFishSplash.png in Resources */,
+				01673F9818A5DFFD0031659F /* Configuration.plist in Resources */,
 				01183EBF18834394001B22B4 /* Main.storyboard in Resources */,
 				01183EEA18834A2B001B22B4 /* default-568h@2x.png in Resources */,
 			);
@@ -442,9 +473,12 @@
 				01183EB818834394001B22B4 /* main.m in Sources */,
 				01183EC518834394001B22B4 /* DetailViewController.m in Sources */,
 				01183F2818836B72001B22B4 /* AFHTTPRequestOperationManager.m in Sources */,
+				01673F9C18A5E3110031659F /* SFPubMapOverlay.m in Sources */,
 				01183F2B18836B72001B22B4 /* AFSecurityPolicy.m in Sources */,
+				01673FA318A5F5930031659F /* SFPubAnnotation.m in Sources */,
 				01183F2E18836B72001B22B4 /* AFURLResponseSerialization.m in Sources */,
 				01183F3A18838F65001B22B4 /* Pub.m in Sources */,
+				01673F9F18A5E9A80031659F /* SFPubLocation.m in Sources */,
 				01183F2718836B72001B22B4 /* AFHTTPRequestOperation.m in Sources */,
 				01183F3318837290001B22B4 /* PubService.m in Sources */,
 			);

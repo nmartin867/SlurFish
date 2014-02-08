@@ -10,6 +10,7 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "Pub.h"
 #import "ConfigurationManager.h"
+#import "SFPubLocation.h"
 
 
 @interface PubRepository(){}
@@ -35,6 +36,18 @@
     return _settings;
 }
 
+-(SFPubLocation *)parseLocationResult:(NSDictionary *)result{
+    SFPubLocation *pubLocation = [SFPubLocation new];
+    pubLocation.address = result[@"address"];
+    pubLocation.city = result[@"city"];
+    pubLocation.state = result[@"state"];
+    pubLocation.zip = result[@"postalCode"];
+    pubLocation.distance = result[@"distance"];
+    pubLocation.lat = [(NSNumber *)result[@"lat"] doubleValue];
+    pubLocation.lng = [(NSNumber *)result[@"lng"] doubleValue];
+    return pubLocation;
+}
+
 -(void) getPubsLongitude:(double)longitude
              andLatitude:(double)latitude
                onSuccess:(PubSearchRequestSuccess)successBlock
@@ -57,12 +70,13 @@
 -(NSMutableArray *)formatPubSearchResults:(NSDictionary *)pubResults{
     NSMutableArray *pubs = [NSMutableArray array];
     for(NSDictionary *venue in pubResults[@"venues"]){
-        Pub *pub = [[Pub alloc]init];
+        Pub *pub = [Pub new];
         pub.name =  venue[@"name"];
         if([[venue objectForKey:@"categories"]count] > 0){
             pub.category = [[venue[@"categories"] objectAtIndex:0]objectForKey:@"name"];
         }
-        pub.location = venue[@"location"];
+        NSDictionary *locationResult = venue[@"location"];
+        pub.location = [self parseLocationResult:locationResult];
         [pubs addObject:pub];
     }
     return pubs;
