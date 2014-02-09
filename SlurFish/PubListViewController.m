@@ -99,9 +99,11 @@
 }
 
 SFImageDownloadComplete onIconDownload = ^(NSSet *indexPaths, UIImage *image){
+    UITableView * tableView = _pubListController.tableView;
     for(NSIndexPath *indexPath in indexPaths){
-        UITableViewCell *cell = [_pubListController.tableView cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.imageView.image = image;
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 };
 
