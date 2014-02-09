@@ -11,6 +11,7 @@
 #import "Pub.h"
 #import "ConfigurationManager.h"
 #import "SFPubLocation.h"
+#import "SFImageDownloader.h"
 
 
 @interface PubRepository(){}
@@ -48,6 +49,11 @@
     return pubLocation;
 }
 
+-(NSURL *)createCategoryIconUrlWithPrefix:(NSString *)iconPrefix suffix:(NSString *)iconSuffix{
+    NSString *urlString = [NSString stringWithFormat:@"%@32%@",iconPrefix, iconSuffix];
+    return [NSURL URLWithString:urlString];
+}
+
 -(void) getPubsLongitude:(double)longitude
              andLatitude:(double)latitude
                onSuccess:(PubSearchRequestSuccess)successBlock
@@ -59,6 +65,7 @@
                                         @"client_id":[self.settings appId],
                                         @"client_secret": [self.settings appSecret],
                                         };
+ 
     [self.httpRequestManager GET:[self.settings apiBaseUrl] parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *response = (NSDictionary *)responseObject[@"response"];
         successBlock([self formatPubSearchResults:response]);
@@ -72,8 +79,13 @@
     for(NSDictionary *venue in pubResults[@"venues"]){
         Pub *pub = [Pub new];
         pub.name =  venue[@"name"];
-        if([[venue objectForKey:@"categories"]count] > 0){
-            pub.category = [[venue[@"categories"] objectAtIndex:0]objectForKey:@"name"];
+        for(NSDictionary *category in venue[@"categories"]){
+            if([category[@"primary"] boolValue] == YES){
+                pub.category = category[@"name"];
+                NSDictionary *icon = category[@"icon"];
+                pub.categoryIconUrl = [self createCategoryIconUrlWithPrefix:icon[@"prefix"] suffix:icon[@"suffix"]];
+                break;
+            }
         }
         NSDictionary *locationResult = venue[@"location"];
         pub.location = [self parseLocationResult:locationResult];

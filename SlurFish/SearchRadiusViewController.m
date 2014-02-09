@@ -15,17 +15,9 @@
 
 @implementation SearchRadiusViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
+    [self showSearchOverlay];
     [super viewDidLoad];
 }
 
@@ -35,23 +27,51 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)showSearchOverlay{
+    UIView *searchRadiusView = [UIView new];
+    searchRadiusView.frame = self.view.frame;
+    [self.view addSubview:searchRadiusView];
+}
+
+-(void)addCircleOverlayAtUserLocation:(MKUserLocation *)userLocation{
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 2000, 2000);
+    [_mapView setRegion:region animated:YES];
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate:userLocation.coordinate radius:1000];
+    [_mapView addOverlay:circle];
+}
+
 #pragma mark - Map View Delegate Methods
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
-    MKAnnotationView *aView = nil;
     //User location annotation
     if([annotation isKindOfClass:[MKUserLocation class]]){
-        return nil;
+        //[self addCircleOverlayAtUserLocation:annotation];
     }
-    // Handle any custom annotations.
-    aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"mapPin"];
-    if(aView){
-        aView.annotation = annotation;
-    } else {
-        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                               reuseIdentifier:@"mapPin"];
-    }
-    return aView;
+    return nil;
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
+
+    circleView.strokeColor = [UIColor redColor];
+    circleView.fillColor = [[UIColor redColor] colorWithAlphaComponent:0.4];
+    return circleView;
+}
+
+#pragma mark - UIResponder Delegate Methods
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+}
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+}
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+}
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+    
 }
 
 @end

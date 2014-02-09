@@ -14,10 +14,13 @@
 #import "Pub.h"
 #import "SFPubLocation.h"
 #import "MBProgressHUD.h"
+#import "SFImageDownloader.h"
+#import "SFImageRequest.h"
 
 @interface PubListViewController () {
     NSArray *_pubs;
     Pub *_selectedPub;
+    SFImageDownloader *_imageDownloader;
 }
 @property(nonatomic, strong)LocationProvider *locationProvider;
 @property(nonatomic, strong)PubService *pubService;
@@ -25,6 +28,7 @@
 @property(nonatomic, strong)UserLocationError userLocationErrorBlock;
 @property(nonatomic, strong)PubSearchRequestSuccess pubSearchRequestSuccessBlock;
 @property(nonatomic, strong)PubSearchRequestError pubSearchRequestErrorBlock;
+
 
 @end
 
@@ -36,6 +40,7 @@
 @synthesize userLocationErrorBlock = _userLocationErrorBlock;
 @synthesize pubSearchRequestSuccessBlock = _pubSearchRequestSuccessBlock;
 @synthesize pubSearchRequestErrorBlock = _pubSearchRequestErrorBlock;
+  __weak PubListViewController *_pubListController;
 
 -(UserLocationSuccess)userLocationSuccessBlock{
     return ^(CLLocation *location){
@@ -57,12 +62,18 @@
             NSNumber *distanceB = [[(Pub *)b location] distance];
             return [distanceA compare:distanceB];
         }];
-        /*NSArray *sortedArray;
-         sortedArray = [drinkDetails sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-         NSDate *first = [(Person*)a birthDate];
-         NSDate *second = [(Person*)b birthDate];
-         return [first compare:second];
-         }];*/
+        NSMutableDictionary *iconRequests = [NSMutableDictionary dictionary];
+        for(int i = 0; i < [_pubs count]; ++i){
+            NSURL *categoryIconUrl = [_pubs[i] categoryIconUrl];
+            if(categoryIconUrl != nil){
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(i + 1) inSection:0];
+                [iconRequests setObject:categoryIconUrl forKey:indexPath];
+            }
+        }
+        SFImageRequest *imageRequest = [[SFImageRequest alloc]initWithRequests:iconRequests];
+        [imageRequest setCompletionBlockWithSuccess:onIconDownload failure:onIconDownloadFailure];
+        _imageDownloader = [[SFImageDownloader alloc]initWithRequest:imageRequest];
+        [_imageDownloader start];
         [self.tableView reloadData];
     };
 }
@@ -87,6 +98,17 @@
     return _locationProvider;
 }
 
+SFImageDownloadComplete onIconDownload = ^(NSSet *indexPaths, UIImage *image){
+    for(NSIndexPath *indexPath in indexPaths){
+        UITableViewCell *cell = [_pubListController.tableView cellForRowAtIndexPath:indexPath];
+        cell.imageView.image = image;
+    }
+};
+
+SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
+    
+};
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -95,6 +117,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _pubListController = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.tableView.rowHeight = 100;
@@ -106,6 +129,7 @@
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(61/255.0) green:(61/255.0) blue:(61/255.0) alpha:1.0];
     self.navigationController.navigationBar.translucent = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -144,7 +168,7 @@
     static NSString *MyIdentifier = @"PubCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier];
     }
     
     cell.backgroundColor = [UIColor clearColor];
