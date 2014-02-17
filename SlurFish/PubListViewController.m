@@ -24,64 +24,40 @@
     NSArray *_pubs;
     Pub *_selectedPub;
     PubService *_pubService;
+    MBProgressHUD *_hud;
+    LocationProvider *_locationProvider;
  }
-@property(nonatomic, strong)LocationProvider *locationProvider;
-@property(nonatomic, strong)UserLocationSuccess userLocationSuccessBlock;
-@property(nonatomic, strong)UserLocationError userLocationErrorBlock;
-@property(nonatomic, strong)PubSearchRequestSuccess pubSearchRequestSuccessBlock;
-@property(nonatomic, strong)PubSearchRequestError pubSearchRequestErrorBlock;
 
-
+-(void) updatePubListTable:(NSArray *)pubs;
+-(void) getPubsNearUser:(CLLocation *)location;
 @end
 
 @implementation PubListViewController
 
-@synthesize locationProvider = _locationProvider;
-@synthesize userLocationSuccessBlock = _userLocationSuccessBlock;
-@synthesize userLocationErrorBlock = _userLocationErrorBlock;
-@synthesize pubSearchRequestSuccessBlock = _pubSearchRequestSuccessBlock;
-@synthesize pubSearchRequestErrorBlock = _pubSearchRequestErrorBlock;
-  __weak PubListViewController *_pubListController;
+__weak PubListViewController *_pubListController;
 
 
+#pragma mark - User location blocks
 
--(UserLocationSuccess)userLocationSuccessBlock{
-    return ^(CLLocation *location){
-        [self getPubsNearCoordinates:location];
-    };
-}
-
--(UserLocationError)userLocationErrorBlock{
-    return ^(NSError *error){
-        
-    };
-}
-
--(PubSearchRequestSuccess)pubSearchRequestSuccessBlock{
-    return ^(NSMutableArray *pubSearchResults){
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        _pubs = [[NSMutableArray arrayWithArray:pubSearchResults] sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
-            NSNumber *distanceA = [[(Pub *)a location] distance];
-            NSNumber *distanceB = [[(Pub *)b location] distance];
-            return [distanceA compare:distanceB];
-        }];
-        [self.tableView reloadData];
-    };
-}
-
--(PubSearchRequestError)pubSearchRequestErrorBlock{
-    return ^(NSError *error){
-        
-    };
-}
+void (^onUserLocationFound)(CLLocation *) = ^(CLLocation *userLocation){
+    [_pubListController getPubsNearUser:userLocation];
+};
 
 
--(LocationProvider *)locationProvider{
-    if(_locationProvider == nil){
-        _locationProvider = [[LocationProvider alloc]init];
-    }
-    return _locationProvider;
-}
+void (^onUserLocationError)(NSError *) = ^(NSError *error){
+    //show error
+};
+
+#pragma mark - Pub location blocks
+
+void (^onPubSearchResult)(NSArray *) = ^(NSArray *pubs){
+    [_pubListController updatePubListTable:pubs];
+};
+
+
+void (^onPubSearchError)(NSError *) = ^(NSError *error){
+     //show error
+};
 
 
 - (void)awakeFromNib
@@ -93,6 +69,7 @@
 {
     [super viewDidLoad];
     _pubService = [[PubService alloc]initWithPubRepository:[PubRepository new]];
+    _locationProvider = [LocationProvider new];
     _pubListController = self;
    
     self.tableView.rowHeight = 100;
@@ -136,17 +113,46 @@
                            }];
 }
 
-- (void)getUserLocation
-{
-    [self.locationProvider getUserLocationWithSuccess:self.userLocationSuccessBlock error:self.userLocationErrorBlock];
+- (void)showHudWithStatus:(NSString *)status{
+    if(_hud == nil){
+         _hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    }
+    [self.view addSubview:_hud];
+    // Set the hud to display with a color
+    _hud.color = [UIColor HudColor];
+    _hud.labelText = status;
+    [_hud show:YES];
 }
 
--(void)getPubsNearCoordinates:(CLLocation *)location
+-(void)hideHud{
+    [_hud hide:YES];
+};
+
+- (void)getUserLocation
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self showHudWithStatus:@"Finding Waterholes..."];
+    [_locationProvider getUserLocationWithSuccess:onUserLocationFound error:onUserLocationError];
+}
+
+- (void)updatePubListTable:(NSArray *)pubs{
+    NSMutableArray *sortedPubs = [pubs mutableCopy];
+  
+    [sortedPubs sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
+                                      NSNumber *distanceA = [[(Pub *)a location] distance];
+                                      NSNumber *distanceB = [[(Pub *)b location] distance];
+                                      return [distanceA compare:distanceB];}];
+    
+    _pubs = [NSArray arrayWithArray:sortedPubs];
+   [self.tableView reloadData];
+   [self hideHud];
+
+}
+
+-(void)getPubsNearUser:(CLLocation *)location
+{
     [_pubService getPubsWithCoordinate:location.coordinate
-                                 onSuccess:self.pubSearchRequestSuccessBlock
-                                   onError:self.pubSearchRequestErrorBlock];
+                                 onSuccess:onPubSearchResult
+                                   onError:onPubSearchError];
 }
 
 #pragma mark - Table View
@@ -179,15 +185,18 @@
     float miles = [NSNumber milesWithMeters:meters];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f miles", miles];
     
-    if(pub.categoryIconUrl){
+    if(pub.categoryIconUrl && cell.imageView.image == nil){
        //download image
         [self downloadImageWithURL:pub.categoryIconUrl completionBlock:^(BOOL succeeded, UIImage *image){
          if (succeeded) {
             // change the image in the cell
             cell.imageView.image = image;
-            
             // cache the image for use later (when scrolling up)
-             pub.categoryIconImage = image;
+            pub.categoryIconImage = image;
+            //update cell with icon
+             [self.tableView beginUpdates];
+             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+             [self.tableView endUpdates];
          }
         }];
     }

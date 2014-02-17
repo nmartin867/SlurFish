@@ -12,7 +12,9 @@
 #import "SFPubAnnotation.h"
 #import "UIColor+SlurFish.h"
 
-@interface PubMapViewController ()
+@interface PubMapViewController (){
+    NSMutableDictionary *_pubDetail;
+}
 
 @end
 
@@ -45,6 +47,10 @@
     leftButton.frame = CGRectMake(0, 0, 32, 32);
     [leftButton addTarget:self action:@selector(goBack)forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    _pubDetail = [NSMutableDictionary dictionary];
+    if(_pub.phoneNumber != nil){
+        [_pubDetail setObject:_pub.phoneNumber forKey:@"phoneNumber"];
+    }
     
 }
 
@@ -115,7 +121,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return [[_pubDetail allKeys]count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -129,19 +135,10 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor cellTextColor];
     cell.detailTextLabel.textColor = [UIColor cellTextColor];
+    NSString *key = [_pubDetail allKeys][indexPath.row];
+    cell.textLabel.text = [_pubDetail objectForKey:key];
     
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = @"Get Directions";
-            break;
-        case 1:
-            cell.textLabel.text = @"(208) 555-1234";
-            
-        default:
-            break;
-    }
     
-  
     return cell;
 }
 

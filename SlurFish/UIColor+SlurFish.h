@@ -12,4 +12,5 @@
 +(UIColor *)navigationBackgroupColor;
 +(UIColor *)backgroundColor;
 +(UIColor *)cellTextColor;
++(UIColor *)HudColor;
 @end

@@ -18,4 +18,7 @@
 +(UIColor *)cellTextColor{
     return [UIColor colorWithRed:255/255.0 green:89/255.0 blue:0 alpha:1.0];
 }
++(UIColor *)HudColor{
+    return [UIColor colorWithRed:255/255.0 green:89/255.0 blue:0 alpha:0.8];
+}
 @end

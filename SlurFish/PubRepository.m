@@ -48,6 +48,10 @@
     return pubLocation;
 }
 
+-(NSString *)parsePhoneNumber:(NSDictionary *)contactResult{
+    return contactResult[@"formattedPhone"];
+}
+
 -(NSURL *)createCategoryIconUrlWithPrefix:(NSString *)iconPrefix suffix:(NSString *)iconSuffix{
     NSString *urlString = [NSString stringWithFormat:@"%@32%@",iconPrefix, iconSuffix];
     return [NSURL URLWithString:urlString];
@@ -88,6 +92,8 @@
         }
         NSDictionary *locationResult = venue[@"location"];
         pub.location = [self parseLocationResult:locationResult];
+        NSDictionary *contactResult = venue[@"contact"];
+        pub.phoneNumber = [self parsePhoneNumber:contactResult];
         [pubs addObject:pub];
     }
     return pubs;
