@@ -38,9 +38,10 @@
 		01673FA318A5F5930031659F /* SFPubAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673FA218A5F5930031659F /* SFPubAnnotation.m */; };
 		01A6C54018B193F2008E024C /* NSNumber+SFMileConverstions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01A6C53F18B193F2008E024C /* NSNumber+SFMileConverstions.m */; };
 		01A6C54218B1A016008E024C /* PubMapAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54118B1A016008E024C /* PubMapAnnotation.png */; };
+		01A6C54518B1BE90008E024C /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54418B1BE90008E024C /* Images-2.xcassets */; };
+		01A6C54718B1C09B008E024C /* SlurFishSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54618B1C09B008E024C /* SlurFishSplash.png */; };
 		01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B94FD018A1E2BB00F7FE94 /* tableBackground.png */; };
 		01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01BC2FFC18A341980055D980 /* SlurFishIcon.png */; };
-		01BC2FFF18A342280055D980 /* SlurFishSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 01BC2FFE18A342280055D980 /* SlurFishSplash.png */; };
 		D72CAB3931674E758F6F52DC /* libPods-SlurFishTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91398F5448424BD09F622870 /* libPods-SlurFishTests.a */; };
 		FDD6BF7ECCFA403589E80259 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C386944D3CA4B998D0AFEDA /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -104,9 +105,10 @@
 		01A6C53F18B193F2008E024C /* NSNumber+SFMileConverstions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+SFMileConverstions.m"; sourceTree = "<group>"; };
 		01A6C54118B1A016008E024C /* PubMapAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PubMapAnnotation.png; sourceTree = "<group>"; };
 		01A6C54318B1B637008E024C /* PubProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubProvider.h; sourceTree = "<group>"; };
+		01A6C54418B1BE90008E024C /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-2.xcassets"; sourceTree = "<group>"; };
+		01A6C54618B1C09B008E024C /* SlurFishSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishSplash.png; sourceTree = "<group>"; };
 		01B94FD018A1E2BB00F7FE94 /* tableBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableBackground.png; sourceTree = "<group>"; };
 		01BC2FFC18A341980055D980 /* SlurFishIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishIcon.png; sourceTree = "<group>"; };
-		01BC2FFE18A342280055D980 /* SlurFishSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishSplash.png; sourceTree = "<group>"; };
 		2C386944D3CA4B998D0AFEDA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		50423F14F1B740A295ACBB6C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		91398F5448424BD09F622870 /* libPods-SlurFishTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SlurFishTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +200,7 @@
 				011D71AA188B25F7009323CB /* SearchRadiusViewController.h */,
 				011D71AB188B25F7009323CB /* SearchRadiusViewController.m */,
 				01183EC618834394001B22B4 /* Images.xcassets */,
+				01A6C54418B1BE90008E024C /* Images-2.xcassets */,
 				01183EB218834394001B22B4 /* Supporting Files */,
 			);
 			path = SlurFish;
@@ -206,9 +209,9 @@
 		01183EB218834394001B22B4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01A6C54618B1C09B008E024C /* SlurFishSplash.png */,
 				01A6C54118B1A016008E024C /* PubMapAnnotation.png */,
 				01673F9718A5DFFD0031659F /* Configuration.plist */,
-				01BC2FFE18A342280055D980 /* SlurFishSplash.png */,
 				01BC2FFC18A341980055D980 /* SlurFishIcon.png */,
 				01B94FD018A1E2BB00F7FE94 /* tableBackground.png */,
 				01183EE918834A2B001B22B4 /* default-568h@2x.png */,
@@ -402,11 +405,12 @@
 				01183EB618834394001B22B4 /* InfoPlist.strings in Resources */,
 				01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */,
 				01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */,
-				01BC2FFF18A342280055D980 /* SlurFishSplash.png in Resources */,
+				01A6C54518B1BE90008E024C /* Images-2.xcassets in Resources */,
 				01673F9818A5DFFD0031659F /* Configuration.plist in Resources */,
 				01183EBF18834394001B22B4 /* Main.storyboard in Resources */,
 				01183EEA18834A2B001B22B4 /* default-568h@2x.png in Resources */,
 				01A6C54218B1A016008E024C /* PubMapAnnotation.png in Resources */,
+				01A6C54718B1C09B008E024C /* SlurFishSplash.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +631,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 50423F14F1B740A295ACBB6C /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Martin (4Z56XKDNRX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Martin (4Z56XKDNRX)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -643,6 +649,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 50423F14F1B740A295ACBB6C /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Nick Martin (CPD56F56QP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nick Martin (CPD56F56QP)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
