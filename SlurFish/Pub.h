@@ -13,4 +13,5 @@
 @property(nonatomic, strong)SFPubLocation *location;
 @property(nonatomic, strong)NSString *category;
 @property(nonatomic, strong)NSURL *categoryIconUrl;
+@property(nonatomic, strong)UIImage *categoryIconImage;
 @end

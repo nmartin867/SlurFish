@@ -10,4 +10,7 @@
 
 @implementation SFPubLocation
 
+-(CLLocationCoordinate2D)coordinate{
+    return CLLocationCoordinate2DMake(_lat, _lng);
+}
 @end

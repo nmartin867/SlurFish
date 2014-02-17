@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class PubService;
 
 @interface PubListViewController : UITableViewController <UITableViewDelegate>
+
 
 @end

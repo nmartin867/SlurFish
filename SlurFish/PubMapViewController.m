@@ -19,27 +19,12 @@
 
 #pragma mark - Managing the detail item
 
-- (void)setPubItem:(Pub *)pub
-{
-    if (_pub != pub) {
-        _pub = pub;
-        // Update the view.
-        [self configureView];
-    }
-}
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-    if (_pub) {
-        self.detailDescriptionLabel.text = [_pub name];
-    }
-    double lat = _pub.location.lat;
-    double lng = _pub.location.lng;
-    CLLocationCoordinate2D pubCoordinate = CLLocationCoordinate2DMake(lat, lng);
-    SFPubAnnotation *pubAnnotation = [[SFPubAnnotation alloc] initWithCoordinate:pubCoordinate];
-    [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(lat, lng) animated:YES];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(pubCoordinate, 350, 350);
+    SFPubAnnotation *pubAnnotation = [[SFPubAnnotation alloc] initWithCoordinate:_pub.location.coordinate];
+    [_mapView setCenterCoordinate:_pub.location.coordinate animated:YES];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(_pub.location.coordinate, 350, 350);
     [_mapView setRegion:region animated:YES];
     [_mapView addAnnotation:pubAnnotation];
     [UIView beginAnimations:nil context:NULL];
@@ -57,6 +42,94 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - MKMapViewDelegate methods
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+    {
+        return nil;
+    }
+    else if ([annotation isKindOfClass:[SFPubAnnotation class]]){
+        static NSString *identifier = @"PubAnnotation";
+        
+        MKAnnotationView* annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        
+        if (annotationView)
+        {
+            annotationView.annotation = annotation;
+        }
+        else
+        {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:identifier];
+        }
+        
+        annotationView.canShowCallout = NO;
+        annotationView.image = [UIImage imageNamed:@"PubMapAnnotation.png"];
+        
+        return annotationView;
+    }
+    return nil;
+}
+
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    NSLog(@"Tap!");
+    /*DetailsViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsPopover"];
+    controller.annotation = view.annotation; // it's useful to have property in your view controller for whatever data it needs to present the annotation's details
+    
+    self.popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+    self.popover.delegate = self;
+    
+    [self.popover presentPopoverFromRect:view.frame
+                                  inView:view.superview
+                permittedArrowDirections:UIPopoverArrowDirectionAny
+                                animated:YES];*/
+    
+}
+
+#pragma mark - UITableViewDelegate methods
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *PubDetailIdentifier = @"PubDetailCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PubDetailIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PubDetailIdentifier];
+    }
+    
+    switch (indexPath.row) {
+        case 0:
+            cell.textLabel.text = @"Get Directions";
+            break;
+        case 1:
+            cell.textLabel.text = @"(208) 555-1234";
+            
+        default:
+            break;
+    }
+    
+  
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //_selectedPub = [_pubs objectAtIndex:indexPath.row];
+    //[self performSegueWithIdentifier:@"PubMap" sender:self];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 
 @interface SFPubLocation : NSObject
@@ -17,5 +18,6 @@
 @property(nonatomic, strong) NSNumber *distance;
 @property(nonatomic) double lat;
 @property(nonatomic) double lng;
+@property(nonatomic) CLLocationCoordinate2D coordinate;
 @end
 

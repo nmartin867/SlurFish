@@ -7,23 +7,28 @@
 //
 
 #import "PubService.h"
-@interface PubService(){}
-@property(nonatomic, strong)PubRepository *pubRepository;
+@interface PubService(){
+ id<PubProvider> _pubRepository;
+}
 @end
 
 @implementation PubService
-@synthesize pubRepository = _pubRepository;
 
--(PubRepository *)pubRepository{
-    if(_pubRepository == nil){
-        _pubRepository = [[PubRepository alloc]init];
-    }
-    return _pubRepository;
+
+-(instancetype)initWithPubRepository:(id<PubProvider>)pubRepository{
+    
+        self = [super init];
+        if (self) {
+            _pubRepository = pubRepository;
+        }
+        return self;
+    
 }
+
 
 -(void)getPubsWithCoordinate:(CLLocationCoordinate2D)coordinate
                    onSuccess:(PubSearchRequestSuccess)success
                      onError:(PubSearchRequestError)error{
-    [self.pubRepository getPubsLongitude:coordinate.longitude andLatitude:coordinate.latitude onSuccess:success onError:error];
+    [_pubRepository getPubsLongitude:coordinate.longitude andLatitude:coordinate.latitude onSuccess:success onError:error];
 }
 @end

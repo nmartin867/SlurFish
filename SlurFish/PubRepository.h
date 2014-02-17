@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PubProvider.h"
 
-@interface PubRepository : NSObject
-typedef void (^PubSearchRequestSuccess)(NSMutableArray *pubs);
-typedef void (^PubSearchRequestError)(NSError *error);
+@interface PubRepository : NSObject <PubProvider>
+
 -(void) getPubsLongitude:(double)longitude
              andLatitude:(double)latitude
                      onSuccess:(PubSearchRequestSuccess)successBlock

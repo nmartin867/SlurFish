@@ -9,11 +9,17 @@
 #import "SFPubAnnotation.h"
 
 @implementation SFPubAnnotation
+@synthesize title = _title;
+
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate{
     self = [super init];
     if (self) {
         _coordinate = coordinate;
     }
     return self;
+}
+
+-(NSString *)title{
+    return @"A Pub";
 }
 @end

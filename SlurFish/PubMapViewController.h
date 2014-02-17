@@ -10,10 +10,9 @@
 #import <MapKit/MapKit.h>
 #import "Pub.h"
 
-@interface PubMapViewController : UIViewController
+@interface PubMapViewController : UIViewController <MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) Pub *pub;
-
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @end

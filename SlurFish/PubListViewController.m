@@ -14,16 +14,17 @@
 #import "Pub.h"
 #import "SFPubLocation.h"
 #import "MBProgressHUD.h"
-#import "SFImageDownloader.h"
-#import "SFImageRequest.h"
+#import "NSNumber+SFMileConverstions.h"
+#import "PubRepository.h"
+
+
 
 @interface PubListViewController () {
     NSArray *_pubs;
     Pub *_selectedPub;
-    SFImageDownloader *_imageDownloader;
-}
+    PubService *_pubService;
+ }
 @property(nonatomic, strong)LocationProvider *locationProvider;
-@property(nonatomic, strong)PubService *pubService;
 @property(nonatomic, strong)UserLocationSuccess userLocationSuccessBlock;
 @property(nonatomic, strong)UserLocationError userLocationErrorBlock;
 @property(nonatomic, strong)PubSearchRequestSuccess pubSearchRequestSuccessBlock;
@@ -35,12 +36,13 @@
 @implementation PubListViewController
 
 @synthesize locationProvider = _locationProvider;
-@synthesize pubService = _pubService;
 @synthesize userLocationSuccessBlock = _userLocationSuccessBlock;
 @synthesize userLocationErrorBlock = _userLocationErrorBlock;
 @synthesize pubSearchRequestSuccessBlock = _pubSearchRequestSuccessBlock;
 @synthesize pubSearchRequestErrorBlock = _pubSearchRequestErrorBlock;
   __weak PubListViewController *_pubListController;
+
+
 
 -(UserLocationSuccess)userLocationSuccessBlock{
     return ^(CLLocation *location){
@@ -62,18 +64,6 @@
             NSNumber *distanceB = [[(Pub *)b location] distance];
             return [distanceA compare:distanceB];
         }];
-        NSMutableDictionary *iconRequests = [NSMutableDictionary dictionary];
-        for(int i = 0; i < [_pubs count]; ++i){
-            NSURL *categoryIconUrl = [_pubs[i] categoryIconUrl];
-            if(categoryIconUrl != nil){
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(i + 1) inSection:0];
-                [iconRequests setObject:categoryIconUrl forKey:indexPath];
-            }
-        }
-        SFImageRequest *imageRequest = [[SFImageRequest alloc]initWithRequests:iconRequests];
-        [imageRequest setCompletionBlockWithSuccess:onIconDownload failure:onIconDownloadFailure];
-        _imageDownloader = [[SFImageDownloader alloc]initWithRequest:imageRequest];
-        [_imageDownloader start];
         [self.tableView reloadData];
     };
 }
@@ -84,12 +74,6 @@
     };
 }
 
--(PubService *)pubService{
-    if(_pubService == nil){
-        _pubService = [[PubService alloc]init];
-    }
-    return _pubService;
-}
 
 -(LocationProvider *)locationProvider{
     if(_locationProvider == nil){
@@ -98,18 +82,6 @@
     return _locationProvider;
 }
 
-SFImageDownloadComplete onIconDownload = ^(NSSet *indexPaths, UIImage *image){
-    UITableView * tableView = _pubListController.tableView;
-    for(NSIndexPath *indexPath in indexPaths){
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.imageView.image = image;
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
-};
-
-SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
-    
-};
 
 - (void)awakeFromNib
 {
@@ -119,6 +91,7 @@ SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _pubService = [[PubService alloc]initWithPubRepository:[PubRepository new]];
     _pubListController = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(getUserLocation)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -140,6 +113,22 @@ SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
     // Dispose of any resources that can be recreated.
 }
 
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if ( !error )
+                               {
+                                   UIImage *image = [[UIImage alloc] initWithData:data];
+                                   completionBlock(YES,image);
+                               } else{
+                                   completionBlock(NO,nil);
+                               }
+                           }];
+}
+
 - (void)getUserLocation
 {
     [self.locationProvider getUserLocationWithSuccess:self.userLocationSuccessBlock error:self.userLocationErrorBlock];
@@ -148,7 +137,7 @@ SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
 -(void)getPubsNearCoordinates:(CLLocation *)location
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.pubService getPubsWithCoordinate:location.coordinate
+    [_pubService getPubsWithCoordinate:location.coordinate
                                  onSuccess:self.pubSearchRequestSuccessBlock
                                    onError:self.pubSearchRequestErrorBlock];
 }
@@ -179,14 +168,27 @@ SFImageDownloadFailure onIconDownloadFailure = ^(NSError *error){
 
     Pub *pub = _pubs[indexPath.row];
     cell.textLabel.text = [pub name];
-    float meters = [pub.location.distance floatValue];
-    float conversionFactor = 0.00062137;
-    float miles = conversionFactor * meters;
+    float meters = [pub.location.distance floatValue];   
+    float miles = [NSNumber milesWithMeters:meters];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f miles", miles];
+    
+    if(pub.categoryIconUrl){
+       //download image
+        [self downloadImageWithURL:pub.categoryIconUrl completionBlock:^(BOOL succeeded, UIImage *image){
+         if (succeeded) {
+            // change the image in the cell
+            cell.imageView.image = image;
+            
+            // cache the image for use later (when scrolling up)
+             pub.categoryIconImage = image;
+         }
+        }];
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView setHidden:YES];
     _selectedPub = [_pubs objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"PubMap" sender:self];
 }

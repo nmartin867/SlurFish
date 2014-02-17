@@ -11,7 +11,6 @@
 #import "Pub.h"
 #import "ConfigurationManager.h"
 #import "SFPubLocation.h"
-#import "SFImageDownloader.h"
 
 
 @interface PubRepository(){}

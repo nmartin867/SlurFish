@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PubRepository.h"
 #import <CoreLocation/CoreLocation.h>
+#import "PubProvider.h"
 
 @interface PubService : NSObject
+
+-(instancetype)initWithPubRepository:(id<PubProvider>)pubRepository;
 -(void)getPubsWithCoordinate:(CLLocationCoordinate2D)coordinate
                         onSuccess:(PubSearchRequestSuccess)success
                           onError:(PubSearchRequestError)error;
