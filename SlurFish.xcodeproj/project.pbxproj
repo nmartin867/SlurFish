@@ -38,7 +38,6 @@
 		01673FA318A5F5930031659F /* SFPubAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673FA218A5F5930031659F /* SFPubAnnotation.m */; };
 		01A6C54018B193F2008E024C /* NSNumber+SFMileConverstions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01A6C53F18B193F2008E024C /* NSNumber+SFMileConverstions.m */; };
 		01A6C54218B1A016008E024C /* PubMapAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54118B1A016008E024C /* PubMapAnnotation.png */; };
-		01A6C54518B1BE90008E024C /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54418B1BE90008E024C /* Images-2.xcassets */; };
 		01A6C54718B1C09B008E024C /* SlurFishSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54618B1C09B008E024C /* SlurFishSplash.png */; };
 		01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B94FD018A1E2BB00F7FE94 /* tableBackground.png */; };
 		01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 01BC2FFC18A341980055D980 /* SlurFishIcon.png */; };
@@ -105,7 +104,6 @@
 		01A6C53F18B193F2008E024C /* NSNumber+SFMileConverstions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+SFMileConverstions.m"; sourceTree = "<group>"; };
 		01A6C54118B1A016008E024C /* PubMapAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PubMapAnnotation.png; sourceTree = "<group>"; };
 		01A6C54318B1B637008E024C /* PubProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubProvider.h; sourceTree = "<group>"; };
-		01A6C54418B1BE90008E024C /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-2.xcassets"; sourceTree = "<group>"; };
 		01A6C54618B1C09B008E024C /* SlurFishSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishSplash.png; sourceTree = "<group>"; };
 		01B94FD018A1E2BB00F7FE94 /* tableBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableBackground.png; sourceTree = "<group>"; };
 		01BC2FFC18A341980055D980 /* SlurFishIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishIcon.png; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 				011D71AA188B25F7009323CB /* SearchRadiusViewController.h */,
 				011D71AB188B25F7009323CB /* SearchRadiusViewController.m */,
 				01183EC618834394001B22B4 /* Images.xcassets */,
-				01A6C54418B1BE90008E024C /* Images-2.xcassets */,
 				01183EB218834394001B22B4 /* Supporting Files */,
 			);
 			path = SlurFish;
@@ -405,7 +402,6 @@
 				01183EB618834394001B22B4 /* InfoPlist.strings in Resources */,
 				01B94FD118A1E2BB00F7FE94 /* tableBackground.png in Resources */,
 				01BC2FFD18A341980055D980 /* SlurFishIcon.png in Resources */,
-				01A6C54518B1BE90008E024C /* Images-2.xcassets in Resources */,
 				01673F9818A5DFFD0031659F /* Configuration.plist in Resources */,
 				01183EBF18834394001B22B4 /* Main.storyboard in Resources */,
 				01183EEA18834A2B001B22B4 /* default-568h@2x.png in Resources */,
