@@ -11,6 +11,7 @@
 @interface Pub : NSObject
 @property(nonatomic, strong)NSString *name;
 @property(nonatomic, strong)NSString *phoneNumber;
+@property(nonatomic, strong)NSString *formatedPhoneNumber;
 @property(nonatomic, strong)SFPubLocation *location;
 @property(nonatomic, strong)NSString *category;
 @property(nonatomic, strong)NSURL *categoryIconUrl;

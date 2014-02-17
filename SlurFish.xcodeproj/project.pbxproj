@@ -43,6 +43,9 @@
 		01A6C54018B193F2008E024C /* NSNumber+SFMileConverstions.m in Sources */ = {isa = PBXBuildFile; fileRef = 01A6C53F18B193F2008E024C /* NSNumber+SFMileConverstions.m */; };
 		01A6C54218B1A016008E024C /* PubMapAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54118B1A016008E024C /* PubMapAnnotation.png */; };
 		01A6C54718B1C09B008E024C /* SlurFishSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 01A6C54618B1C09B008E024C /* SlurFishSplash.png */; };
+		01FB56E918B290B500DE70BD /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 01FB56E818B290B500DE70BD /* phone.png */; };
+		01FB56EC18B298E300DE70BD /* SFPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FB56EB18B298E300DE70BD /* SFPopOverViewController.m */; };
+		01FB56EE18B2A7B200DE70BD /* directions.png in Resources */ = {isa = PBXBuildFile; fileRef = 01FB56ED18B2A7B200DE70BD /* directions.png */; };
 		D72CAB3931674E758F6F52DC /* libPods-SlurFishTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91398F5448424BD09F622870 /* libPods-SlurFishTests.a */; };
 		FDD6BF7ECCFA403589E80259 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C386944D3CA4B998D0AFEDA /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -112,6 +115,10 @@
 		01A6C54118B1A016008E024C /* PubMapAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PubMapAnnotation.png; sourceTree = "<group>"; };
 		01A6C54318B1B637008E024C /* PubProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubProvider.h; sourceTree = "<group>"; };
 		01A6C54618B1C09B008E024C /* SlurFishSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurFishSplash.png; sourceTree = "<group>"; };
+		01FB56E818B290B500DE70BD /* phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone.png; sourceTree = "<group>"; };
+		01FB56EA18B298E300DE70BD /* SFPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPopOverViewController.h; sourceTree = "<group>"; };
+		01FB56EB18B298E300DE70BD /* SFPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPopOverViewController.m; sourceTree = "<group>"; };
+		01FB56ED18B2A7B200DE70BD /* directions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = directions.png; sourceTree = "<group>"; };
 		2C386944D3CA4B998D0AFEDA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		50423F14F1B740A295ACBB6C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		91398F5448424BD09F622870 /* libPods-SlurFishTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SlurFishTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,6 +218,8 @@
 		01183EB218834394001B22B4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01FB56ED18B2A7B200DE70BD /* directions.png */,
+				01FB56E818B290B500DE70BD /* phone.png */,
 				013F48F718B1F20D0083EE01 /* SlurfishIcon_58.png */,
 				013F48F518B1F1D20083EE01 /* SlurfishIcon_80.png */,
 				013F48F318B1F0990083EE01 /* SlurfishIcon_120.png */,
@@ -307,6 +316,8 @@
 			children = (
 				01673FA118A5F5930031659F /* SFPubAnnotation.h */,
 				01673FA218A5F5930031659F /* SFPubAnnotation.m */,
+				01FB56EA18B298E300DE70BD /* SFPopOverViewController.h */,
+				01FB56EB18B298E300DE70BD /* SFPopOverViewController.m */,
 			);
 			name = Annotations;
 			sourceTree = "<group>";
@@ -407,9 +418,11 @@
 			files = (
 				013F48F618B1F1D20083EE01 /* SlurfishIcon_80.png in Resources */,
 				013F48F818B1F20D0083EE01 /* SlurfishIcon_58.png in Resources */,
+				01FB56E918B290B500DE70BD /* phone.png in Resources */,
 				01183EC718834394001B22B4 /* Images.xcassets in Resources */,
 				01183EB618834394001B22B4 /* InfoPlist.strings in Resources */,
 				013F48F418B1F0990083EE01 /* SlurfishIcon_120.png in Resources */,
+				01FB56EE18B2A7B200DE70BD /* directions.png in Resources */,
 				013F48EA18B1E7620083EE01 /* refreshbutton.png in Resources */,
 				01673F9818A5DFFD0031659F /* Configuration.plist in Resources */,
 				01183EBF18834394001B22B4 /* Main.storyboard in Resources */,
@@ -504,6 +517,7 @@
 				01183EC218834394001B22B4 /* PubListViewController.m in Sources */,
 				0162BBBE188A23B600479DF1 /* ConfigurationManager.m in Sources */,
 				01183EB818834394001B22B4 /* main.m in Sources */,
+				01FB56EC18B298E300DE70BD /* SFPopOverViewController.m in Sources */,
 				01183EC518834394001B22B4 /* PubMapViewController.m in Sources */,
 				01673F9C18A5E3110031659F /* SFPubMapOverlay.m in Sources */,
 				01673FA318A5F5930031659F /* SFPubAnnotation.m in Sources */,

@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface ConfigurationManager : NSObject
--(NSString *)appId;
--(NSString *)appSecret;
--(NSString *)apiBaseUrl;
--(NSString *)apiVersion;
++(NSString *)appId;
++(NSString *)appSecret;
++(NSString *)apiBaseUrl;
++(NSString *)apiVersion;
++(bool)canDialPhone;
 @end

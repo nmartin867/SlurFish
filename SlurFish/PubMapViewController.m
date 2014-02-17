@@ -11,9 +11,12 @@
 #import "SFPubLocation.h"
 #import "SFPubAnnotation.h"
 #import "UIColor+SlurFish.h"
+#import "ConfigurationManager.h"
+#import "SFPopOverViewController.h"
 
 @interface PubMapViewController (){
     NSMutableDictionary *_pubDetail;
+    UIPopoverController *_pubPopupViewController;
 }
 
 @end
@@ -39,19 +42,34 @@
 {
     [super viewDidLoad];
     [self configureMap];
+    [self setAddressText];
     self.view.backgroundColor = [UIColor backgroundColor];
-    self.tableView.backgroundColor = [UIColor backgroundColor];
     self.navigationItem.title = _pub.name;
+    
+    self.addressLbl.textColor = [UIColor whiteColor];
+    self.addressLbl.textAlignment = NSTextAlignmentCenter;
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftButton setImage:[UIImage imageNamed:@"backbutton.png"] forState:UIControlStateNormal];
     leftButton.frame = CGRectMake(0, 0, 32, 32);
     [leftButton addTarget:self action:@selector(goBack)forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+ 
+    self.tableView.scrollEnabled = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor backgroundColor];
     _pubDetail = [NSMutableDictionary dictionary];
+    [_pubDetail setObject:_pub.location forKey:@"pubLocation"];
     if(_pub.phoneNumber != nil){
-        [_pubDetail setObject:_pub.phoneNumber forKey:@"phoneNumber"];
+        [_pubDetail setObject:_pub.formatedPhoneNumber forKey:@"formattedPhone"];
     }
     
+}
+
+-(void) setAddressText{
+    NSString *address = (_pub.location.address == nil) ? @"" : _pub.location.address;
+    NSString *city = (_pub.location.city == nil) ? @"" : _pub.location.city;
+    NSString *state = (_pub.location.state == nil) ? @"" : _pub.location.state;
+    self.addressLbl.text = [NSString stringWithFormat:@"%@ %@, %@",address, city, state];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,6 +80,18 @@
 
 -(void)goBack{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)openDirections{
+    CLLocationCoordinate2D pubLocation = _pub.location.coordinate;
+    MKPlacemark* place = [[MKPlacemark alloc] initWithCoordinate: pubLocation addressDictionary: nil];
+    MKMapItem* destination = [[MKMapItem alloc] initWithPlacemark: place];
+    destination.name = _pub.name;
+    NSArray* items = [[NSArray alloc] initWithObjects: destination, nil];
+    NSDictionary* options = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             MKLaunchOptionsDirectionsModeDriving,
+                             MKLaunchOptionsDirectionsModeKey, nil];
+    [MKMapItem openMapsWithItems: items launchOptions: options];
 }
 
 #pragma mark - MKMapViewDelegate methods
@@ -95,21 +125,6 @@
     return nil;
 }
 
--(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    [mapView deselectAnnotation:view.annotation animated:YES];
-    NSLog(@"Tap!");
-    /*DetailsViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsPopover"];
-    controller.annotation = view.annotation; // it's useful to have property in your view controller for whatever data it needs to present the annotation's details
-    
-    self.popover = [[UIPopoverController alloc] initWithContentViewController:controller];
-    self.popover.delegate = self;
-    
-    [self.popover presentPopoverFromRect:view.frame
-                                  inView:view.superview
-                permittedArrowDirections:UIPopoverArrowDirectionAny
-                                animated:YES];*/
-    
-}
 
 #pragma mark - UITableViewDelegate methods
 
@@ -131,20 +146,33 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PubDetailIdentifier];
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+   
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor cellTextColor];
     cell.detailTextLabel.textColor = [UIColor cellTextColor];
-    NSString *key = [_pubDetail allKeys][indexPath.row];
-    cell.textLabel.text = [_pubDetail objectForKey:key];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    NSString *key = [[_pubDetail allKeys] objectAtIndex:indexPath.row];
     
+    if([key isEqualToString:@"formattedPhone"]){
+        cell.imageView.image = [UIImage imageNamed:@"phone.png"];
+        cell.textLabel.text = [_pubDetail objectForKey:@"formattedPhone"];
+    }
+    if([key isEqualToString:@"pubLocation"]){
+        cell.imageView.image = [UIImage imageNamed:@"directions.png"];
+        cell.textLabel.text = @"Get Directions";
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //_selectedPub = [_pubs objectAtIndex:indexPath.row];
-    //[self performSegueWithIdentifier:@"PubMap" sender:self];
+    NSString *key = [[_pubDetail allKeys] objectAtIndex:indexPath.row];
+    if([key isEqualToString:@"formattedPhone"] && [ConfigurationManager canDialPhone]){
+            NSString *phoneNumber = [@"telprompt://" stringByAppendingString:_pub.phoneNumber];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    }else{
+        [self openDirections];
+    }
 }
 
 @end

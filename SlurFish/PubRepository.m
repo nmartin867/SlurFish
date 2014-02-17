@@ -48,9 +48,6 @@
     return pubLocation;
 }
 
--(NSString *)parsePhoneNumber:(NSDictionary *)contactResult{
-    return contactResult[@"formattedPhone"];
-}
 
 -(NSURL *)createCategoryIconUrlWithPrefix:(NSString *)iconPrefix suffix:(NSString *)iconSuffix{
     NSString *urlString = [NSString stringWithFormat:@"%@32%@",iconPrefix, iconSuffix];
@@ -62,14 +59,14 @@
                onSuccess:(PubSearchRequestSuccess)successBlock
                  onError:(PubSearchRequestError)errorBlock{
     NSDictionary *longLatQueryParam = @{
-                                        @"v" : [self.settings apiVersion],
+                                        @"v" : [ConfigurationManager apiVersion],
                                         @"query":@"bar",
                                         @"ll":[NSString stringWithFormat:@"%lf,%lf",latitude, longitude],
-                                        @"client_id":[self.settings appId],
-                                        @"client_secret": [self.settings appSecret],
+                                        @"client_id":[ConfigurationManager appId],
+                                        @"client_secret": [ConfigurationManager appSecret],
                                         };
  
-    [self.httpRequestManager GET:[self.settings apiBaseUrl] parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.httpRequestManager GET:[ConfigurationManager apiBaseUrl] parameters:longLatQueryParam success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *response = (NSDictionary *)responseObject[@"response"];
         successBlock([self formatPubSearchResults:response]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -93,7 +90,8 @@
         NSDictionary *locationResult = venue[@"location"];
         pub.location = [self parseLocationResult:locationResult];
         NSDictionary *contactResult = venue[@"contact"];
-        pub.phoneNumber = [self parsePhoneNumber:contactResult];
+        pub.formatedPhoneNumber = contactResult[@"formattedPhone"];
+        pub.phoneNumber = contactResult[@"phone"];
         [pubs addObject:pub];
     }
     return pubs;

@@ -8,33 +8,38 @@
 
 #import "ConfigurationManager.h"
 @interface ConfigurationManager()
-@property(nonatomic, strong) NSMutableDictionary *settings;
 @end
 
 @implementation ConfigurationManager
-@synthesize settings = _settings;
 
--(NSMutableDictionary *)settings{
-    if(_settings == nil){
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Configuration" ofType:@"plist"];
-        _settings = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+
++(NSMutableDictionary *)getSettings{
+  
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Configuration" ofType:@"plist"];
+    return [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+}
+
++(NSString *)appId{
+    return [self getSettings][@"AppID"];
+}
+
++(NSString *)appSecret{
+    return [self getSettings][@"AppSecret"];
+}
+
++(NSString *)apiBaseUrl{
+    return [self getSettings][@"API_Base_URL"];
+}
+
++(NSString *)apiVersion{
+    return [self getSettings][@"API_Version"];
+}
+
++(bool)canDialPhone{
+    if ([[[UIDevice currentDevice] model] isEqualToString:@"iPhone"]) {
+        return YES;
+    } else {
+        return NO;
     }
-    return _settings;
-}
-
--(NSString *)appId{
-    return self.settings[@"AppID"];
-}
-
--(NSString *)appSecret{
-    return self.settings[@"AppSecret"];
-}
-
--(NSString *)apiBaseUrl{
-    return self.settings[@"API_Base_URL"];
-}
-
--(NSString *)apiVersion{
-    return self.settings[@"API_Version"];
 }
 @end
