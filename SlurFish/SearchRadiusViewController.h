@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface SearchRadiusViewController : UIViewController<MKMapViewDelegate>
+@interface SearchRadiusViewController : UIViewController<MKMapViewDelegate, UIGestureRecognizerDelegate>
+@property (weak, nonatomic) IBOutlet UISlider *radiusSlider;
 
 @end

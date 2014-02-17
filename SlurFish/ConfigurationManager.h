@@ -14,4 +14,5 @@
 +(NSString *)apiBaseUrl;
 +(NSString *)apiVersion;
 +(bool)canDialPhone;
++(bool)locationServicesEnabled;
 @end

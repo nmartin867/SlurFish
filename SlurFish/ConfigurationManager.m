@@ -7,6 +7,8 @@
 //
 
 #import "ConfigurationManager.h"
+#import <MapKit/MapKit.h>
+
 @interface ConfigurationManager()
 @end
 
@@ -39,6 +41,14 @@
     if ([[[UIDevice currentDevice] model] isEqualToString:@"iPhone"]) {
         return YES;
     } else {
+        return NO;
+    }
+}
+
++(bool)locationServicesEnabled{
+    if([CLLocationManager locationServicesEnabled]){
+        return YES;
+    }else{
         return NO;
     }
 }

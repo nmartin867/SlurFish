@@ -8,17 +8,27 @@
 
 #import "SearchRadiusViewController.h"
 #import "LocationProvider.h"
+#import "UIColor+SlurFish.h"
 
-@interface SearchRadiusViewController ()
+@interface SearchRadiusViewController (){
+    float _lastScale;
+    MKCircle *_searchRadiusOverlay;
+    CLLocation *_userLocation;
+    
+}
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @end
 
 @implementation SearchRadiusViewController
 
+const static float sliderMin = 1609.34;
+const static float sliderMax = 32186.9;
+
 - (void)viewDidLoad
 {
-    [self showSearchOverlay];
     [super viewDidLoad];
+    _radiusSlider.minimumValue = sliderMin;
+    _radiusSlider.maximumValue = sliderMax;
 }
 
 - (void)didReceiveMemoryWarning
@@ -33,19 +43,27 @@
     [self.view addSubview:searchRadiusView];
 }
 
--(void)addCircleOverlayAtUserLocation:(MKUserLocation *)userLocation{
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 2000, 2000);
+-(void)addCircleOverlayAtUserLocation:(CLLocation *)userLocation{
+    _userLocation = userLocation;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 3000, 3000);
     [_mapView setRegion:region animated:YES];
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate:userLocation.coordinate radius:1000];
-    [_mapView addOverlay:circle];
+    _searchRadiusOverlay = [MKCircle circleWithCenterCoordinate:userLocation.coordinate radius:500];
+    [_mapView addOverlay:_searchRadiusOverlay];
 }
+- (IBAction)sliderChange:(id)sender {
+    [_mapView removeOverlay:_searchRadiusOverlay];
+    _searchRadiusOverlay = [MKCircle circleWithCenterCoordinate:_userLocation.coordinate radius:_radiusSlider.value];
+    [_mapView addOverlay:_searchRadiusOverlay];
+}
+
 
 #pragma mark - Map View Delegate Methods
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     //User location annotation
     if([annotation isKindOfClass:[MKUserLocation class]]){
-        //[self addCircleOverlayAtUserLocation:annotation];
+        MKUserLocation *userLocation = (MKUserLocation *)annotation;
+        [self addCircleOverlayAtUserLocation:userLocation.location];
     }
     return nil;
 }
@@ -54,24 +72,13 @@
 {
     MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
 
-    circleView.strokeColor = [UIColor redColor];
-    circleView.fillColor = [[UIColor redColor] colorWithAlphaComponent:0.4];
+    circleView.strokeColor = [UIColor cellTextColor];
+    circleView.fillColor = [UIColor HudColor];
     return circleView;
 }
 
-#pragma mark - UIResponder Delegate Methods
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-}
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-}
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-}
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-}
+
+
 
 @end

@@ -8,6 +8,7 @@
 
 #import "LocationProvider.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ConfigurationManager.h"
 
 @interface LocationProvider(){
     UserLocationSuccess _userLocationBlock;
@@ -32,7 +33,12 @@
     NSAssert(success != nil, @"getUserLocationWithSuccess:success was called without success block.");
     _userLocationBlock = success;
     
-    [self.locationManager startUpdatingLocation];
+    if([ConfigurationManager locationServicesEnabled]){
+        [self.locationManager startUpdatingLocation];
+    }else{
+        NSLog(@"Location Services not enabled.");
+    }
+    
 }
 
 // Delegate method from the CLLocationManagerDelegate protocol.
@@ -40,6 +46,16 @@
      didUpdateLocations:(NSArray *)locations {
     [self.locationManager stopUpdatingLocation];
      _userLocationBlock([locations lastObject]);
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    NSLog(@"Error while getting core location : %@",[error localizedFailureReason]);
+    if ([error code] == kCLErrorDenied) {
+        //you had denied
+    }
+    [manager stopUpdatingLocation];
 }
 
 
