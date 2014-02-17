@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "NSNumber+SFMileConverstions.h"
 #import "PubRepository.h"
+#import "UIColor+SlurFish.h"
 
 
 
@@ -93,17 +94,23 @@
     [super viewDidLoad];
     _pubService = [[PubService alloc]initWithPubRepository:[PubRepository new]];
     _pubListController = self;
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(getUserLocation)];
-    self.navigationItem.rightBarButtonItem = addButton;
+   
     self.tableView.rowHeight = 100;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    UIImageView *imageView = [UIImageView new];
-    imageView.image = [UIImage imageNamed:@"tableBackground.png"];
-    self.tableView.backgroundView = imageView;
+    self.tableView.backgroundColor = [UIColor backgroundColor];
+
     
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(61/255.0) green:(61/255.0) blue:(61/255.0) alpha:1.0];
+    self.navigationController.navigationBar.barTintColor = [UIColor navigationBackgroupColor];
     self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName,nil]
+                                                                                            forState:UIControlStateNormal];
+    
+    UIButton *refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [refreshButton setImage:[UIImage imageNamed:@"refreshbutton.png"] forState:UIControlStateNormal];
+    refreshButton.frame = CGRectMake(0, 0, 32, 32);
+    [refreshButton addTarget:self action:@selector(getUserLocation)forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:refreshButton];
     
 }
 
@@ -161,10 +168,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier];
     }
-    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor cellTextColor];
+    cell.detailTextLabel.textColor = [UIColor cellTextColor];
 
     Pub *pub = _pubs[indexPath.row];
     cell.textLabel.text = [pub name];
@@ -188,7 +195,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView setHidden:YES];
     _selectedPub = [_pubs objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"PubMap" sender:self];
 }
@@ -197,7 +203,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     PubMapViewController *pubLocationView = (PubMapViewController *)[segue destinationViewController];
-    [pubLocationView setPub:_selectedPub];
+    pubLocationView.pub = _selectedPub;
 }
 
 @end

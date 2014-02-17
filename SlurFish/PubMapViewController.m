@@ -10,9 +10,10 @@
 #import <CoreLocation/CLLocation.h>
 #import "SFPubLocation.h"
 #import "SFPubAnnotation.h"
+#import "UIColor+SlurFish.h"
 
 @interface PubMapViewController ()
-- (void)configureView;
+
 @end
 
 @implementation PubMapViewController
@@ -20,7 +21,7 @@
 #pragma mark - Managing the detail item
 
 
-- (void)configureView
+- (void)configureMap
 {
     SFPubAnnotation *pubAnnotation = [[SFPubAnnotation alloc] initWithCoordinate:_pub.location.coordinate];
     [_mapView setCenterCoordinate:_pub.location.coordinate animated:YES];
@@ -35,13 +36,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureView];
+    [self configureMap];
+    self.view.backgroundColor = [UIColor backgroundColor];
+    self.tableView.backgroundColor = [UIColor backgroundColor];
+    self.navigationItem.title = _pub.name;
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftButton setImage:[UIImage imageNamed:@"backbutton.png"] forState:UIControlStateNormal];
+    leftButton.frame = CGRectMake(0, 0, 32, 32);
+    [leftButton addTarget:self action:@selector(goBack)forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)goBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - MKMapViewDelegate methods
@@ -111,6 +125,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PubDetailIdentifier];
     }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor cellTextColor];
+    cell.detailTextLabel.textColor = [UIColor cellTextColor];
     
     switch (indexPath.row) {
         case 0:

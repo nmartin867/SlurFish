@@ -14,5 +14,6 @@
 
 @property (strong, nonatomic) Pub *pub;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end
