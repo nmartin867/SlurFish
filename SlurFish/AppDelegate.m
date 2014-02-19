@@ -7,12 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "TestFlight.h"
+#import "ConfigurationManager.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+     [TestFlight takeOff:[ConfigurationManager testFlightKey]];
     return YES;
 }
 							

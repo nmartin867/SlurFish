@@ -36,6 +36,8 @@
 		013F48F618B1F1D20083EE01 /* SlurfishIcon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 013F48F518B1F1D20083EE01 /* SlurfishIcon_80.png */; };
 		013F48F818B1F20D0083EE01 /* SlurfishIcon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 013F48F718B1F20D0083EE01 /* SlurfishIcon_58.png */; };
 		0162BBBE188A23B600479DF1 /* ConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0162BBBD188A23B600479DF1 /* ConfigurationManager.m */; };
+		0165C89D18B456A400B2AD73 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0165C89918B456A400B2AD73 /* libTestFlight.a */; };
+		0165C89F18B456D600B2AD73 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0165C89E18B456D600B2AD73 /* libz.dylib */; };
 		01673F9818A5DFFD0031659F /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01673F9718A5DFFD0031659F /* Configuration.plist */; };
 		01673F9C18A5E3110031659F /* SFPubMapOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673F9B18A5E3110031659F /* SFPubMapOverlay.m */; };
 		01673F9F18A5E9A80031659F /* SFPubLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01673F9E18A5E9A80031659F /* SFPubLocation.m */; };
@@ -103,6 +105,11 @@
 		013F48F718B1F20D0083EE01 /* SlurfishIcon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlurfishIcon_58.png; sourceTree = "<group>"; };
 		0162BBBC188A23B600479DF1 /* ConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationManager.h; sourceTree = "<group>"; };
 		0162BBBD188A23B600479DF1 /* ConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationManager.m; sourceTree = "<group>"; };
+		0165C89918B456A400B2AD73 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		0165C89A18B456A400B2AD73 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		0165C89B18B456A400B2AD73 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		0165C89C18B456A400B2AD73 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		0165C89E18B456D600B2AD73 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		01673F9718A5DFFD0031659F /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		01673F9A18A5E3110031659F /* SFPubMapOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPubMapOverlay.h; sourceTree = "<group>"; };
 		01673F9B18A5E3110031659F /* SFPubMapOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPubMapOverlay.m; sourceTree = "<group>"; };
@@ -130,7 +137,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0165C89F18B456D600B2AD73 /* libz.dylib in Frameworks */,
 				01183F3C18839FAA001B22B4 /* MapKit.framework in Frameworks */,
+				0165C89D18B456A400B2AD73 /* libTestFlight.a in Frameworks */,
 				01183F0D18834F3B001B22B4 /* CoreLocation.framework in Frameworks */,
 				01183EAE18834394001B22B4 /* CoreGraphics.framework in Frameworks */,
 				01183EB018834394001B22B4 /* UIKit.framework in Frameworks */,
@@ -177,6 +186,7 @@
 		01183EAA18834394001B22B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0165C89E18B456D600B2AD73 /* libz.dylib */,
 				01183F3B18839FAA001B22B4 /* MapKit.framework */,
 				01183F0C18834F3B001B22B4 /* CoreLocation.framework */,
 				01183EAB18834394001B22B4 /* Foundation.framework */,
@@ -192,6 +202,7 @@
 		01183EB118834394001B22B4 /* SlurFish */ = {
 			isa = PBXGroup;
 			children = (
+				0165C89818B4568100B2AD73 /* TestFlight */,
 				01A6C53B18B19240008E024C /* Categories */,
 				01673FA018A5F56D0031659F /* Annotations */,
 				01673F9918A5E2970031659F /* Overlays */,
@@ -300,6 +311,17 @@
 				0162BBBD188A23B600479DF1 /* ConfigurationManager.m */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		0165C89818B4568100B2AD73 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				0165C89918B456A400B2AD73 /* libTestFlight.a */,
+				0165C89A18B456A400B2AD73 /* TestFlight.h */,
+				0165C89B18B456A400B2AD73 /* TestFlight+AsyncLogging.h */,
+				0165C89C18B456A400B2AD73 /* TestFlight+ManualSessions.h */,
+			);
+			name = TestFlight;
 			sourceTree = "<group>";
 		};
 		01673F9918A5E2970031659F /* Overlays */ = {
@@ -657,9 +679,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SlurFish/SlurFish-Prefix.pch";
 				INFOPLIST_FILE = "SlurFish/SlurFish-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Nick/ios/slurfish/SlurFish/SlurFish,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "80B861A0-5519-4850-9403-AD1CDAB56BE7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -674,9 +700,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SlurFish/SlurFish-Prefix.pch";
 				INFOPLIST_FILE = "SlurFish/SlurFish-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Nick/ios/slurfish/SlurFish/SlurFish,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "16F7C9B6-92BA-4B5B-9CD4-7B9547894376";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

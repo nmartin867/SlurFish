@@ -13,6 +13,7 @@
 #import "UIColor+SlurFish.h"
 #import "ConfigurationManager.h"
 #import "SFPopOverViewController.h"
+#import "TestFlight.h"
 
 @interface PubMapViewController (){
     NSMutableDictionary *_pubDetail;
@@ -83,6 +84,7 @@
 }
 
 -(void)openDirections{
+    [TestFlight passCheckpoint:@"Open Directions Checkpoint"];
     CLLocationCoordinate2D pubLocation = _pub.location.coordinate;
     MKPlacemark* place = [[MKPlacemark alloc] initWithCoordinate: pubLocation addressDictionary: nil];
     MKMapItem* destination = [[MKMapItem alloc] initWithPlacemark: place];
@@ -168,6 +170,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *key = [[_pubDetail allKeys] objectAtIndex:indexPath.row];
     if([key isEqualToString:@"formattedPhone"] && [ConfigurationManager canDialPhone]){
+        [TestFlight passCheckpoint:@"Call Pub Checkpoint"];
             NSString *phoneNumber = [@"telprompt://" stringByAppendingString:_pub.phoneNumber];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
     }else{

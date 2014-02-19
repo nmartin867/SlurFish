@@ -37,6 +37,10 @@
     return [self getSettings][@"API_Version"];
 }
 
++(NSString *)testFlightKey{
+    return[self getSettings][@"TestFlightKey"];
+}
+
 +(bool)canDialPhone{
     if ([[[UIDevice currentDevice] model] isEqualToString:@"iPhone"]) {
         return YES;

@@ -13,6 +13,7 @@
 +(NSString *)appSecret;
 +(NSString *)apiBaseUrl;
 +(NSString *)apiVersion;
++(NSString *)testFlightKey;
 +(bool)canDialPhone;
 +(bool)locationServicesEnabled;
 @end
